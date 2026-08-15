@@ -1,0 +1,1311 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - DreamSpace AI</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- COMMON DASHBOARD CSS -->
+    <link
+        rel="stylesheet"
+        href="{% static 'css/dashboard.css' %}"
+    >
+
+</head>
+
+<body>
+
+<div class="dashboard-wrapper">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <!-- BRAND -->
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                <i class="bi bi-house-heart-fill"></i>
+            </div>
+
+            <div>
+                <h4>DreamSpace</h4>
+                <small>AI Interior Design</small>
+            </div>
+
+        </div>
+
+
+        <!-- PROFILE -->
+
+        <div class="profile-mini">
+
+            <div class="profile-avatar">
+                {% if admin.name %}
+                    {{ admin.name|first|upper }}
+                {% else %}
+                    A
+                {% endif %}
+            </div>
+
+            <div>
+
+                <h6>
+                    {% if admin.name %}
+                        {{ admin.name }}
+                    {% else %}
+                        Admin
+                    {% endif %}
+                </h6>
+
+                <span>Administrator</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- MENU -->
+
+        <nav class="sidebar-menu">
+
+            <!-- Dashboard -->
+
+            <a href="{% url 'admin-dashboard' %}"
+               class="menu-item active">
+
+                <i class="bi bi-grid-1x2-fill"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <!-- Customers -->
+
+            <a href="#"
+               class="menu-item">
+
+                <i class="bi bi-people-fill"></i>
+
+                <span>Customers</span>
+
+            </a>
+
+
+            <!-- Designers -->
+
+            <a href="#"
+               class="menu-item">
+
+                <i class="bi bi-palette-fill"></i>
+
+                <span>Designers</span>
+
+            </a>
+
+
+            <!-- Bookings -->
+
+            <a href="#"
+               class="menu-item">
+
+                <i class="bi bi-calendar-check-fill"></i>
+
+                <span>Bookings</span>
+
+            </a>
+
+
+            <!-- Payments -->
+
+            <a href="#"
+               class="menu-item">
+
+                <i class="bi bi-credit-card-fill"></i>
+
+                <span>Payments</span>
+
+            </a>
+
+
+            <!-- Designs -->
+
+            <a href="{% url 'designs' category='living-room' %}"
+               class="menu-item">
+
+                <i class="bi bi-house-fill"></i>
+
+                <span>Designs</span>
+
+            </a>
+
+
+            <!-- AI -->
+
+            <a href="#"
+               class="menu-item">
+
+                <i class="bi bi-stars"></i>
+
+                <span>AI Assistant</span>
+
+                <span class="ai-badge">
+                    AI
+                </span>
+
+            </a>
+
+
+            <!-- Reports -->
+
+            <a href="#"
+               class="menu-item">
+
+                <i class="bi bi-bar-chart-fill"></i>
+
+                <span>Reports</span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+            <a href="{% url 'admin_logout' %}"
+   class="menu-item logout">
+
+    <i class="bi bi-box-arrow-left"></i>
+
+    <span>Logout</span>
+
+</a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="topbar">
+
+            <div class="d-flex align-items-center">
+
+                <!-- Mobile Menu -->
+
+                <button
+                    class="mobile-menu-btn"
+                    onclick="toggleSidebar()"
+                    type="button"
+                >
+                    <i class="bi bi-list"></i>
+                </button>
+
+
+                <!-- Search -->
+
+                <div class="search-box">
+
+                    <i class="bi bi-search"></i>
+
+                    <input
+                        type="text"
+                        placeholder="Search dashboard..."
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- TOPBAR RIGHT -->
+
+            <div class="topbar-right">
+
+
+                <!-- Notification -->
+
+                <button
+                    class="notification-btn"
+                    type="button"
+                >
+
+                    <i class="bi bi-bell"></i>
+
+                    <span class="notification-dot"></span>
+
+                </button>
+
+
+                <!-- Profile -->
+
+                <div class="top-profile">
+
+                    <div class="top-avatar">
+
+                        {% if admin.name %}
+                            {{ admin.name|first|upper }}
+                        {% else %}
+                            A
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="top-profile-info">
+
+                        <strong>
+
+                            {% if admin.name %}
+                                {{ admin.name }}
+                            {% else %}
+                                Admin
+                            {% endif %}
+
+                        </strong>
+
+                        <small>
+                            Administrator
+                        </small>
+
+                    </div>
+
+                    <i class="bi bi-chevron-down"></i>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =================================================
+             DASHBOARD BODY
+        ================================================== -->
+
+        <div class="dashboard-body">
+
+
+            <!-- =================================================
+                 WELCOME SECTION
+            ================================================== -->
+
+            <section class="welcome-section">
+
+                <div class="welcome-text">
+
+                    <span class="welcome-label">
+
+                        <i class="bi bi-stars"></i>
+
+                        Admin Dashboard
+
+                    </span>
+
+
+                    <h1>
+                        Welcome,
+                        {% if admin.name %}
+                            {{ admin.name }}
+                        {% else %}
+                            Admin
+                        {% endif %}
+                    </h1>
+
+
+                    <p>
+                        Manage customers, designers, bookings,
+                        payments and interior designs from one place.
+                    </p>
+
+
+                    <a
+                        href="#management"
+                        class="create-project-btn"
+                    >
+
+                        <i class="bi bi-speedometer2"></i>
+
+                        Manage Platform
+
+                    </a>
+
+                </div>
+
+
+                <!-- ILLUSTRATION -->
+
+                <div class="welcome-illustration">
+
+                    <div class="home-illustration">
+
+                        <i class="bi bi-house-heart-fill"></i>
+
+                    </div>
+
+
+                    <div class="floating-card card-one">
+
+                        <i class="bi bi-people-fill"></i>
+
+                    </div>
+
+
+                    <div class="floating-card card-two">
+
+                        <i class="bi bi-palette-fill"></i>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 STATISTICS
+            ================================================== -->
+
+            <div class="row g-4 stats-row">
+
+
+                <!-- CUSTOMERS -->
+
+                <div class="col-xl-3 col-md-6">
+
+                    <div class="stat-card projects-stat">
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-people-fill"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Total Customers
+                            </span>
+
+                            <h3>
+                                0
+                            </h3>
+
+                            <small>
+                                Registered customers
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DESIGNERS -->
+
+                <div class="col-xl-3 col-md-6">
+
+                    <div class="stat-card consultation-stat">
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-palette-fill"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Total Designers
+                            </span>
+
+                            <h3>
+                                0
+                            </h3>
+
+                            <small>
+                                Registered designers
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BOOKINGS -->
+
+                <div class="col-xl-3 col-md-6">
+
+                    <div class="stat-card design-stat">
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-calendar-check-fill"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Total Bookings
+                            </span>
+
+                            <h3>
+                                0
+                            </h3>
+
+                            <small>
+                                Designer consultations
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PAYMENTS -->
+
+                <div class="col-xl-3 col-md-6">
+
+                    <div class="stat-card payment-stat">
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-currency-rupee"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Total Payments
+                            </span>
+
+                            <h3>
+                                ₹0
+                            </h3>
+
+                            <small>
+                                Successful payments
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 MAIN CONTENT ROW
+            ================================================== -->
+
+            <div
+                class="row g-4"
+                id="management"
+                style="margin-top: 25px;"
+            >
+
+
+                <!-- =================================================
+                     PLATFORM MANAGEMENT
+                ================================================== -->
+
+                <div class="col-lg-8">
+
+                    <div class="content-card">
+
+                        <div class="card-heading">
+
+                            <div>
+
+                                <h4>
+                                    Platform Management
+                                </h4>
+
+                                <p>
+                                    Manage the main activities of DreamSpace AI
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- CUSTOMER -->
+
+                        <div class="project-item">
+
+                            <div class="project-image living-room">
+
+                                <i class="bi bi-people-fill"></i>
+
+                            </div>
+
+
+                            <div class="project-details">
+
+                                <div class="project-title-row">
+
+                                    <div>
+
+                                        <h5>
+                                            Customer Management
+                                        </h5>
+
+                                        <span>
+                                            View and manage registered customers
+                                        </span>
+
+                                    </div>
+
+                                    <span class="status progress-status">
+                                        Active
+                                    </span>
+
+                                </div>
+
+
+                                <div class="progress-info">
+
+                                    <span>
+                                        Platform users
+                                    </span>
+
+                                    <strong>
+                                        0
+                                    </strong>
+
+                                </div>
+
+                                <div class="progress">
+
+                                    <div
+                                        class="progress-bar"
+                                        style="width: 0%;"
+                                    ></div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- DESIGNERS -->
+
+                        <div class="project-item">
+
+                            <div class="project-image kitchen">
+
+                                <i class="bi bi-palette-fill"></i>
+
+                            </div>
+
+
+                            <div class="project-details">
+
+                                <div class="project-title-row">
+
+                                    <div>
+
+                                        <h5>
+                                            Designer Management
+                                        </h5>
+
+                                        <span>
+                                            View designer profiles and portfolios
+                                        </span>
+
+                                    </div>
+
+                                    <span class="status review-status">
+                                        Manage
+                                    </span>
+
+                                </div>
+
+
+                                <div class="progress-info">
+
+                                    <span>
+                                        Registered designers
+                                    </span>
+
+                                    <strong>
+                                        0
+                                    </strong>
+
+                                </div>
+
+                                <div class="progress">
+
+                                    <div
+                                        class="progress-bar"
+                                        style="width: 0%;"
+                                    ></div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- BOOKINGS -->
+
+                        <div class="project-item">
+
+                            <div
+                                class="project-image living-room"
+                            >
+
+                                <i class="bi bi-calendar-check-fill"></i>
+
+                            </div>
+
+
+                            <div class="project-details">
+
+                                <div class="project-title-row">
+
+                                    <div>
+
+                                        <h5>
+                                            Booking Management
+                                        </h5>
+
+                                        <span>
+                                            Monitor consultations and bookings
+                                        </span>
+
+                                    </div>
+
+                                    <span class="status progress-status">
+                                        Monitor
+                                    </span>
+
+                                </div>
+
+
+                                <div class="progress-info">
+
+                                    <span>
+                                        Total consultations
+                                    </span>
+
+                                    <strong>
+                                        0
+                                    </strong>
+
+                                </div>
+
+                                <div class="progress">
+
+                                    <div
+                                        class="progress-bar"
+                                        style="width: 0%;"
+                                    ></div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- PAYMENTS -->
+
+                        <div class="project-item">
+
+                            <div
+                                class="project-image kitchen"
+                            >
+
+                                <i class="bi bi-credit-card-fill"></i>
+
+                            </div>
+
+
+                            <div class="project-details">
+
+                                <div class="project-title-row">
+
+                                    <div>
+
+                                        <h5>
+                                            Payment Management
+                                        </h5>
+
+                                        <span>
+                                            Monitor customer payments
+                                        </span>
+
+                                    </div>
+
+                                    <span class="status progress-status">
+                                        Secure
+                                    </span>
+
+                                </div>
+
+
+                                <div class="progress-info">
+
+                                    <span>
+                                        Successful payments
+                                    </span>
+
+                                    <strong>
+                                        ₹0
+                                    </strong>
+
+                                </div>
+
+                                <div class="progress">
+
+                                    <div
+                                        class="progress-bar"
+                                        style="width: 0%;"
+                                    ></div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     RECENT ACTIVITY
+                ================================================== -->
+
+                <div class="col-lg-4">
+
+                    <div class="content-card">
+
+                        <div class="card-heading">
+
+                            <div>
+
+                                <h4>
+                                    Recent Activity
+                                </h4>
+
+                                <p>
+                                    Latest platform activity
+                                </p>
+
+                            </div>
+
+                            <i class="bi bi-activity calendar-heading-icon"></i>
+
+                        </div>
+
+
+                        <!-- ACTIVITY 1 -->
+
+                        <div class="consultation-date">
+
+                            <div class="date-box">
+
+                                <span>
+                                    NEW
+                                </span>
+
+                                <strong>
+                                    0
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <h5>
+                                    Customer Registration
+                                </h5>
+
+                                <p>
+                                    New customers will appear here.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ACTIVITY 2 -->
+
+                        <div class="designer-box">
+
+                            <div class="designer-avatar">
+
+                                <i class="bi bi-palette-fill"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Designer Registration
+                                </strong>
+
+                                <span>
+                                    New designers will appear here.
+                                </span>
+
+                            </div>
+
+                            <button type="button">
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </button>
+
+                        </div>
+
+
+                        <!-- ACTIVITY 3 -->
+
+                        <div class="designer-box">
+
+                            <div class="designer-avatar">
+
+                                <i class="bi bi-calendar-check"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    New Booking
+                                </strong>
+
+                                <span>
+                                    New consultations will appear here.
+                                </span>
+
+                            </div>
+
+                            <button type="button">
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </button>
+
+                        </div>
+
+
+                        <!-- ACTIVITY 4 -->
+
+                        <div class="designer-box">
+
+                            <div class="designer-avatar">
+
+                                <i class="bi bi-currency-rupee"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Payment Activity
+                                </strong>
+
+                                <span>
+                                    Recent payments will appear here.
+                                </span>
+
+                            </div>
+
+                            <button type="button">
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </button>
+
+                        </div>
+
+
+                        <button
+                            class="join-btn"
+                            type="button"
+                        >
+
+                            <i class="bi bi-bar-chart-fill"></i>
+
+                            View Platform Activity
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 DESIGNERS / ADMIN INFORMATION
+            ================================================== -->
+
+            <div
+                class="row g-4"
+                style="margin-top: 5px;"
+            >
+
+
+                <!-- DESIGN MANAGEMENT -->
+
+                <div class="col-lg-6">
+
+                    <div class="content-card">
+
+                        <div class="card-heading">
+
+                            <div>
+
+                                <h4>
+                                    Design Management
+                                </h4>
+
+                                <p>
+                                    Manage interior designs uploaded by designers
+                                </p>
+
+                            </div>
+
+                            <a
+                                href="{% url 'designs' category='living-room' %}"
+                                class="view-link"
+                            >
+                                View Designs
+                            </a>
+
+                        </div>
+
+
+                        <div class="designer-item">
+
+                            <div class="designer-big-avatar">
+
+                                <i class="bi bi-house-fill"></i>
+
+                            </div>
+
+                            <div class="designer-info">
+
+                                <h5>
+                                    Living Room Designs
+                                </h5>
+
+                                <span>
+                                    <i class="bi bi-stars"></i>
+                                    Interior Collection
+                                </span>
+
+                                <small>
+                                    Browse uploaded living room designs
+                                </small>
+
+                            </div>
+
+                            <a
+                                href="{% url 'designs' category='living-room' %}"
+                                class="view-designer"
+                            >
+                                View
+                            </a>
+
+                        </div>
+
+
+                        <div class="designer-item">
+
+                            <div class="designer-big-avatar avatar-two">
+
+                                <i class="bi bi-grid-fill"></i>
+
+                            </div>
+
+                            <div class="designer-info">
+
+                                <h5>
+                                    Interior Design Gallery
+                                </h5>
+
+                                <span>
+                                    <i class="bi bi-stars"></i>
+                                    Design Collection
+                                </span>
+
+                                <small>
+                                    Explore available interior designs
+                                </small>
+
+                            </div>
+
+                            <a
+                                href="{% url 'designs' category='living-room' %}"
+                                class="view-designer"
+                            >
+                                Explore
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- AI ASSISTANT -->
+
+                <div class="col-lg-6">
+
+                    <div class="ai-card">
+
+                        <div class="ai-content">
+
+                            <div class="ai-icon">
+
+                                <i class="bi bi-stars"></i>
+
+                            </div>
+
+
+                            <span>
+                                DreamSpace AI
+                            </span>
+
+
+                            <h3>
+                                AI Design Assistant
+                            </h3>
+
+
+                            <p>
+                                Use AI-powered assistance to explore
+                                interior design ideas, room concepts
+                                and creative possibilities.
+                            </p>
+
+
+                            <button
+                                class="ai-btn"
+                                type="button"
+                            >
+
+                                <i class="bi bi-chat-dots-fill"></i>
+
+                                Open AI Assistant
+
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            class="ai-decoration decoration-one"
+                        ></div>
+
+
+                        <div
+                            class="ai-decoration decoration-two"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 QUICK ACTIONS
+            ================================================== -->
+
+            <section class="quick-actions-section">
+
+                <h4>
+                    Quick Actions
+                </h4>
+
+
+                <div class="quick-actions">
+
+
+                    <!-- Customers -->
+
+                    <a
+                        href="#"
+                        class="quick-action"
+                    >
+
+                        <div class="quick-icon">
+
+                            <i class="bi bi-people-fill"></i>
+
+                        </div>
+
+                        <span>
+                            Manage Customers
+                        </span>
+
+                    </a>
+
+
+                    <!-- Designers -->
+
+                    <a
+                        href="#"
+                        class="quick-action"
+                    >
+
+                        <div class="quick-icon">
+
+                            <i class="bi bi-palette-fill"></i>
+
+                        </div>
+
+                        <span>
+                            Manage Designers
+                        </span>
+
+                    </a>
+
+
+                    <!-- Bookings -->
+
+                    <a
+                        href="#"
+                        class="quick-action"
+                    >
+
+                        <div class="quick-icon">
+
+                            <i class="bi bi-calendar-check-fill"></i>
+
+                        </div>
+
+                        <span>
+                            View Bookings
+                        </span>
+
+                    </a>
+
+
+                    <!-- Designs -->
+
+                    <a
+                        href="{% url 'designs' category='living-room' %}"
+                        class="quick-action"
+                    >
+
+                        <div class="quick-icon">
+
+                            <i class="bi bi-house-heart-fill"></i>
+
+                        </div>
+
+                        <span>
+                            View Designs
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+function toggleSidebar() {
+
+    const sidebar = document.getElementById("sidebar");
+
+    sidebar.classList.toggle("show");
+
+}
+
+</script>
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+
+</html>

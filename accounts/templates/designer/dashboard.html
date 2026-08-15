@@ -1,0 +1,1275 @@
+```html
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Designer Dashboard | DreamSpace AI</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- SAME CSS USED BY CUSTOMER DASHBOARD -->
+    <link rel="stylesheet"
+          href="{% static 'css/dashboard.css' %}">
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard-wrapper">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+
+        <!-- BRAND -->
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                <i class="bi bi-house-heart-fill"></i>
+            </div>
+
+            <div>
+
+                <h4>DreamSpace AI</h4>
+
+                <small>
+                    Interior Design Platform
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- PROFILE -->
+
+        <div class="profile-mini">
+
+            <div class="profile-avatar">
+
+                {{ request.session.designer_name|first|upper }}
+
+            </div>
+
+            <div>
+
+                <h6>
+                    {{ request.session.designer_name|default:"Designer" }}
+                </h6>
+
+                <span>
+                    Interior Designer
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- MENU -->
+
+        <nav class="sidebar-menu">
+
+
+            <a href="{% url 'designer-dashboard' %}"
+               class="menu-item active">
+
+                <i class="bi bi-grid-1x2-fill"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <i class="bi bi-folder2-open"></i>
+
+                <span>
+                    My Projects
+                </span>
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <i class="bi bi-people-fill"></i>
+
+                <span>
+                    Clients
+                </span>
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <i class="bi bi-palette-fill"></i>
+
+                <span>
+                    My Designs
+                </span>
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <i class="bi bi-calendar3"></i>
+
+                <span>
+                    Consultations
+                </span>
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <i class="bi bi-chat-dots-fill"></i>
+
+                <span>
+                    Messages
+                </span>
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <i class="bi bi-stars"></i>
+
+                <span>
+                    AI Assistant
+                </span>
+
+                <span class="ai-badge">
+                    AI
+                </span>
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <i class="bi bi-person-circle"></i>
+
+                <span>
+                    My Profile
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+            <a href="#" class="menu-item">
+
+                <i class="bi bi-gear-fill"></i>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'designer_logout' %}" 
+   class="menu-item logout">
+
+    <i class="bi bi-box-arrow-right"></i>
+
+    <span>
+        Logout
+    </span>
+
+</a>
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="topbar">
+
+
+            <div style="display:flex; align-items:center;">
+
+                <button class="mobile-menu-btn">
+
+                    <i class="bi bi-list"></i>
+
+                </button>
+
+
+                <div class="search-box">
+
+                    <i class="bi bi-search"></i>
+
+                    <input
+                        type="text"
+                        placeholder="Search projects, clients..."
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+
+                <!-- NOTIFICATION -->
+
+                <button class="notification-btn">
+
+                    <i class="bi bi-bell"></i>
+
+                    <span class="notification-dot"></span>
+
+                </button>
+
+
+                <!-- PROFILE -->
+
+                <div class="top-profile">
+
+
+                    <div class="top-avatar">
+
+                        {{ request.session.designer_name|first|upper }}
+
+                    </div>
+
+
+                    <div class="top-profile-info">
+
+                        <strong>
+                            {{ request.session.designer_name|default:"Designer" }}
+                        </strong>
+
+                        <small>
+                            Interior Designer
+                        </small>
+
+                    </div>
+
+
+                    <i class="bi bi-chevron-down"></i>
+
+
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =================================================
+             DASHBOARD BODY
+        ================================================== -->
+
+        <div class="dashboard-body">
+
+
+            <!-- =================================================
+                 WELCOME SECTION
+            ================================================== -->
+
+            <section class="welcome-section">
+
+
+                <div class="welcome-text">
+
+
+                    <span class="welcome-label">
+
+                        <i class="bi bi-stars"></i>
+
+                        Designer Workspace
+
+                    </span>
+
+
+                    <h1>
+                        Welcome back,
+                        {{ request.session.designer_name|default:"Designer" }}!
+                    </h1>
+
+
+                    <p>
+
+                        Manage your interior projects, clients,
+                        consultations and design portfolio
+                        from one place.
+
+                    </p>
+
+
+                    <a href="#"
+                       class="create-project-btn">
+
+                        <i class="bi bi-plus-lg"></i>
+
+                        Add New Design
+
+                    </a>
+
+
+                </div>
+
+
+
+                <!-- ILLUSTRATION -->
+
+                <div class="welcome-illustration">
+
+
+                    <div class="home-illustration">
+
+                        <i class="bi bi-house-heart"></i>
+
+                    </div>
+
+
+                    <div class="floating-card card-one">
+
+                        <i class="bi bi-palette-fill"></i>
+
+                    </div>
+
+
+                    <div class="floating-card card-two">
+
+                        <i class="bi bi-brush-fill"></i>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 STATISTICS
+            ================================================== -->
+
+            <div class="row stats-row g-3">
+
+
+                <!-- PROJECTS -->
+
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="stat-card projects-stat">
+
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-folder-fill"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Total Projects
+                            </span>
+
+                            <h3>
+                                24
+                            </h3>
+
+                            <small>
+                                +4 this month
+                            </small>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CONSULTATIONS -->
+
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="stat-card consultation-stat">
+
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-calendar-check-fill"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Consultations
+                            </span>
+
+                            <h3>
+                                12
+                            </h3>
+
+                            <small>
+                                3 upcoming
+                            </small>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- DESIGNS -->
+
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="stat-card design-stat">
+
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-palette-fill"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Designs Uploaded
+                            </span>
+
+                            <h3>
+                                38
+                            </h3>
+
+                            <small>
+                                +6 this month
+                            </small>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- EARNINGS -->
+
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="stat-card payment-stat">
+
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-currency-rupee"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Earnings
+                            </span>
+
+                            <h3>
+                                ₹48K
+                            </h3>
+
+                            <small>
+                                This month
+                            </small>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 MAIN CONTENT ROW
+            ================================================== -->
+
+            <div class="row g-3 mt-1">
+
+
+                <!-- =================================================
+                     RECENT PROJECTS
+                ================================================== -->
+
+                <div class="col-lg-7">
+
+
+                    <div class="content-card">
+
+
+                        <div class="card-heading">
+
+
+                            <div>
+
+                                <h4>
+                                    Recent Projects
+                                </h4>
+
+                                <p>
+                                    Your latest interior design projects
+                                </p>
+
+                            </div>
+
+
+                            <a href="#"
+                               class="view-link">
+
+                                View All
+
+                            </a>
+
+
+                        </div>
+
+
+
+                        <!-- PROJECT 1 -->
+
+                        <div class="project-item">
+
+
+                            <div class="project-image living-room">
+
+                                <i class="bi bi-house-door"></i>
+
+                            </div>
+
+
+                            <div class="project-details">
+
+
+                                <div class="project-title-row">
+
+                                    <div>
+
+                                        <h5>
+                                            Modern Living Room
+                                        </h5>
+
+                                        <span>
+                                            Client: Ananya Kumar
+                                        </span>
+
+                                    </div>
+
+
+                                    <span class="status progress-status">
+                                        In Progress
+                                    </span>
+
+                                </div>
+
+
+                                <div class="progress-info">
+
+                                    <span>
+                                        Design Progress
+                                    </span>
+
+                                    <strong>
+                                        75%
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="progress">
+
+                                    <div class="progress-bar"
+                                         style="width:75%;">
+                                    </div>
+
+                                </div>
+
+
+                                <span class="designer-name">
+
+                                    Updated today
+
+                                </span>
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- PROJECT 2 -->
+
+                        <div class="project-item">
+
+
+                            <div class="project-image kitchen">
+
+                                <i class="bi bi-cup-hot"></i>
+
+                            </div>
+
+
+                            <div class="project-details">
+
+
+                                <div class="project-title-row">
+
+                                    <div>
+
+                                        <h5>
+                                            Contemporary Kitchen
+                                        </h5>
+
+                                        <span>
+                                            Client: Rahul Thomas
+                                        </span>
+
+                                    </div>
+
+
+                                    <span class="status review-status">
+                                        Client Review
+                                    </span>
+
+                                </div>
+
+
+                                <div class="progress-info">
+
+                                    <span>
+                                        Design Progress
+                                    </span>
+
+                                    <strong>
+                                        90%
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="progress">
+
+                                    <div class="progress-bar"
+                                         style="width:90%;">
+                                    </div>
+
+                                </div>
+
+
+                                <span class="designer-name">
+
+                                    Updated yesterday
+
+                                </span>
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- PROJECT 3 -->
+
+                        <div class="project-item">
+
+
+                            <div class="project-image living-room">
+
+                                <i class="bi bi-lamp"></i>
+
+                            </div>
+
+
+                            <div class="project-details">
+
+
+                                <div class="project-title-row">
+
+                                    <div>
+
+                                        <h5>
+                                            Luxury Bedroom
+                                        </h5>
+
+                                        <span>
+                                            Client: Priya Sharma
+                                        </span>
+
+                                    </div>
+
+
+                                    <span class="status progress-status">
+                                        In Progress
+                                    </span>
+
+                                </div>
+
+
+                                <div class="progress-info">
+
+                                    <span>
+                                        Design Progress
+                                    </span>
+
+                                    <strong>
+                                        60%
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="progress">
+
+                                    <div class="progress-bar"
+                                         style="width:60%;">
+                                    </div>
+
+                                </div>
+
+
+                                <span class="designer-name">
+
+                                    Updated 2 days ago
+
+                                </span>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     UPCOMING CONSULTATION
+                ================================================== -->
+
+                <div class="col-lg-5">
+
+
+                    <div class="content-card">
+
+
+                        <div class="card-heading">
+
+
+                            <div>
+
+                                <h4>
+                                    Upcoming Consultation
+                                </h4>
+
+                                <p>
+                                    Your next scheduled meeting
+                                </p>
+
+                            </div>
+
+
+                            <i class="bi bi-calendar3 calendar-heading-icon"></i>
+
+
+                        </div>
+
+
+
+                        <div class="consultation-date">
+
+
+                            <div class="date-box">
+
+                                <span>
+                                    AUG
+                                </span>
+
+                                <strong>
+                                    16
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <h5>
+                                    Living Room Consultation
+                                </h5>
+
+                                <p>
+                                    10:30 AM • Online Meeting
+                                </p>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="designer-box">
+
+
+                            <div class="designer-avatar">
+
+                                AK
+
+                            </div>
+
+
+                            <div>
+
+                                <strong>
+                                    Ananya Kumar
+                                </strong>
+
+                                <span>
+                                    Customer
+                                </span>
+
+                            </div>
+
+
+                            <button>
+
+                                <i class="bi bi-chat"></i>
+
+                            </button>
+
+
+                        </div>
+
+
+                        <button class="join-btn">
+
+                            <i class="bi bi-camera-video"></i>
+
+                            Join Consultation
+
+                        </button>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 AI ASSISTANT + CLIENTS
+            ================================================== -->
+
+            <div class="row g-3 mt-1">
+
+
+                <!-- AI ASSISTANT -->
+
+                <div class="col-lg-5">
+
+
+                    <div class="ai-card">
+
+
+                        <div class="ai-content">
+
+
+                            <div class="ai-icon">
+
+                                <i class="bi bi-stars"></i>
+
+                            </div>
+
+
+                            <span>
+                                DreamSpace AI
+                            </span>
+
+
+                            <h3>
+                                Design Smarter
+                            </h3>
+
+
+                            <p>
+
+                                Get AI-powered suggestions for
+                                colour combinations, layouts,
+                                furniture and interior styles.
+
+                            </p>
+
+
+                            <button class="ai-btn">
+
+                                <i class="bi bi-chat-dots"></i>
+
+                                Ask AI Assistant
+
+                            </button>
+
+
+                        </div>
+
+
+                        <div class="ai-decoration decoration-one"></div>
+
+                        <div class="ai-decoration decoration-two"></div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- CLIENTS -->
+
+                <div class="col-lg-7">
+
+
+                    <div class="content-card">
+
+
+                        <div class="card-heading">
+
+
+                            <div>
+
+                                <h4>
+                                    Recent Clients
+                                </h4>
+
+                                <p>
+                                    Customers working with you
+                                </p>
+
+                            </div>
+
+
+                            <a href="#"
+                               class="view-link">
+
+                                View All
+
+                            </a>
+
+
+                        </div>
+
+
+
+                        <!-- CLIENT 1 -->
+
+                        <div class="designer-item">
+
+
+                            <div class="designer-big-avatar">
+
+                                AK
+
+                            </div>
+
+
+                            <div class="designer-info">
+
+                                <h5>
+                                    Ananya Kumar
+                                </h5>
+
+                                <span>
+                                    ★ 4.9
+                                </span>
+
+                                <small>
+                                    Modern Living Room
+                                </small>
+
+                            </div>
+
+
+                            <button class="view-designer">
+
+                                View
+
+                            </button>
+
+
+                        </div>
+
+
+
+                        <!-- CLIENT 2 -->
+
+                        <div class="designer-item">
+
+
+                            <div class="designer-big-avatar avatar-two">
+
+                                RT
+
+                            </div>
+
+
+                            <div class="designer-info">
+
+                                <h5>
+                                    Rahul Thomas
+                                </h5>
+
+                                <span>
+                                    ★ 4.8
+                                </span>
+
+                                <small>
+                                    Contemporary Kitchen
+                                </small>
+
+                            </div>
+
+
+                            <button class="view-designer">
+
+                                View
+
+                            </button>
+
+
+                        </div>
+
+
+
+                        <!-- CLIENT 3 -->
+
+                        <div class="designer-item">
+
+
+                            <div class="designer-big-avatar">
+
+                                PS
+
+                            </div>
+
+
+                            <div class="designer-info">
+
+                                <h5>
+                                    Priya Sharma
+                                </h5>
+
+                                <span>
+                                    ★ 5.0
+                                </span>
+
+                                <small>
+                                    Luxury Bedroom
+                                </small>
+
+                            </div>
+
+
+                            <button class="view-designer">
+
+                                View
+
+                            </button>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 QUICK ACTIONS
+            ================================================== -->
+
+            <section class="quick-actions-section">
+
+
+                <h4>
+                    Quick Actions
+                </h4>
+
+
+                <div class="quick-actions">
+
+
+                    <a href="#" class="quick-action">
+
+                        <div class="quick-icon">
+
+                            <i class="bi bi-plus-lg"></i>
+
+                        </div>
+
+                        <span>
+                            Add New Design
+                        </span>
+
+                    </a>
+
+
+                    <a href="#" class="quick-action">
+
+                        <div class="quick-icon">
+
+                            <i class="bi bi-people"></i>
+
+                        </div>
+
+                        <span>
+                            Manage Clients
+                        </span>
+
+                    </a>
+
+
+                    <a href="#" class="quick-action">
+
+                        <div class="quick-icon">
+
+                            <i class="bi bi-calendar-check"></i>
+
+                        </div>
+
+                        <span>
+                            View Consultations
+                        </span>
+
+                    </a>
+
+
+                    <a href="#" class="quick-action">
+
+                        <div class="quick-icon">
+
+                            <i class="bi bi-person-gear"></i>
+
+                        </div>
+
+                        <span>
+                            Edit Profile
+                        </span>
+
+                    </a>
+
+
+                </div>
+
+
+            </section>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>

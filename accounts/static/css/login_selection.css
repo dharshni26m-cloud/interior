@@ -1,0 +1,75 @@
+/* ===============================
+   GOOGLE FONT
+================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* ===============================
+   GLOBAL
+================================ */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(135deg,#EAF5FF,#F8FBFF);
+    min-height:100vh;
+}
+
+/* ===============================
+   HEADING
+================================ */
+
+h1{
+    color:#1E3A8A;
+    font-weight:700;
+}
+
+.text-muted{
+    font-size:18px;
+}
+
+/* ===============================
+   LOGIN CARD
+================================ */
+
+.login-card{
+    border:none;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.login-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 40px rgba(59,130,246,.25);
+}
+
+.card-body{
+    padding:35px;
+}
+
+.card-body i{
+    font-size:60px;
+    margin-bottom:20px;
+}
+
+.card-body h3{
+    font-weight:600;
+    margin-bottom:15px;
+}
+
+.card-body p{
+    color:#666;
+    margin-bottom:25px;
+}
+
+.btn{
+    border-radius:10px;
+    padding:10px;
+    font-weight:600;
+}
